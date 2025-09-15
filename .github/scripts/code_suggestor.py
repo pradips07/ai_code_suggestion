@@ -50,7 +50,7 @@ for file in files:
     suggestions = []
     for idx, chunk in enumerate(patch_chunks):
         prompt = f"""
-        You are a code reviewer. Suggest improvements for the following code:
+        You are a senior PHP/Javascript/CSS code reviewer. Suggest improvements for the following code:
 
         Filename: {file.filename}
         Patch (chunk {idx+1}/{len(patch_chunks)}):
@@ -61,7 +61,7 @@ for file in files:
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are a senior code reviewer."},
+                    {"role": "system", "content": "You are a senior PHP/Javascript/CSS code reviewer."},
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=1200,  # increased to allow full feedback
@@ -70,17 +70,17 @@ for file in files:
             suggestions.append(suggestion)
         except openai.APIError as e:
             if "insufficient_quota" in str(e):
-                print(f"⚠️ OpenAI quota exceeded while analyzing `{file.filename}`")
+                print(f" OpenAI quota exceeded while analyzing `{file.filename}`")
                 quota_exceeded = True
                 break
             else:
-                print(f"⚠️ OpenAI API error analyzing `{file.filename}`: {e}")
+                print(f" OpenAI API error analyzing `{file.filename}`: {e}")
         except Exception as e:
-            print(f"⚠️ Unexpected error analyzing `{file.filename}`: {e}")
+            print(f" Unexpected error analyzing `{file.filename}`: {e}")
 
     # Append combined suggestions for the file
     if suggestions:
-        comments.append(f"### 💡 Suggestions for `{file.filename}`\n" + "\n\n".join(suggestions))
+        comments.append(f"### Suggestions for `{file.filename}`\n" + "\n\n".join(suggestions))
 
 # Show results in GitHub Checks output
 if comments:
@@ -90,15 +90,15 @@ if comments:
     try:
         pr.create_issue_comment(body)
     except Exception as e:
-        print(f"⚠️ Failed to post PR comment: {e}")
+        print(f" Failed to post PR comment: {e}")
 
     # Save suggestions for GitHub summary
     with open("suggestions.md", "w", encoding="utf-8") as f:
-        f.write("## 🤖 AI Code Suggestions\n\n")
+        f.write("## AI Code Suggestions\n\n")
         f.write(body)
 elif quota_exceeded:
     with open("suggestions.md", "w", encoding="utf-8") as f:
-        f.write("⚠️ OpenAI quota exceeded. Could not analyze all files.")
+        f.write("OpenAI quota exceeded. Could not analyze all files.")
 else:
     with open("suggestions.md", "w", encoding="utf-8") as f:
-        f.write("✅ No AI suggestions. Your code looks good!")
+        f.write("No AI suggestions. Your code looks good!")
