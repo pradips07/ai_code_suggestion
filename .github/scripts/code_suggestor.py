@@ -50,7 +50,7 @@ for file in files:
     suggestions = []
     for idx, chunk in enumerate(patch_chunks):
         prompt = f"""
-        You are a code reviewer. Suggest improvements for the following code:
+        You are a senior PHP/Javascript/CSS code reviewer. Suggest improvements for the following code:
 
         Filename: {file.filename}
         Patch (chunk {idx+1}/{len(patch_chunks)}):
@@ -61,7 +61,7 @@ for file in files:
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are a senior code reviewer."},
+                    {"role": "system", "content": "You are a senior PHP/Javascript/CSS code reviewer."},
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=1200,  # increased to allow full feedback
