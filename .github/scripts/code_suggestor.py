@@ -50,7 +50,13 @@ for file in files:
     suggestions = []
     for idx, chunk in enumerate(patch_chunks):
         prompt = f"""
-        You are a senior PHP/Javascript/CSS code reviewer. Suggest improvements for the following code:
+        You are a senior PHP/Javascript/CSS code reviewer. Suggest improvements for the following code with given points:\
+        General quality (readability, modularity)
+        - Performance and efficiency
+        - Security (XSS, SQL injection risks, etc.)
+        - Best practices and architecture
+        - Potential bugs or edge cases
+        - Frontend responsiveness and accessibility
 
         Filename: {file.filename}
         Patch (chunk {idx+1}/{len(patch_chunks)}):
