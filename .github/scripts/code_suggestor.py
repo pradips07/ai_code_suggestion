@@ -57,6 +57,8 @@ for file in files:
         - Best practices and architecture
         - Potential bugs or edge cases
         - Frontend responsiveness and accessibility
+        - Also add bad code in percentage
+        
 
         Filename: {file.filename}
         Patch (chunk {idx+1}/{len(patch_chunks)}):
