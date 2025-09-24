@@ -1,6 +1,6 @@
 <?php
 $username = $_POST["username"];
-$password = $_POST["password"];
+$password = $_POST["password"]; 
 $query = "SELECT username, password FROM users WHERE (username = '{$username}') AND (password = '{$password}')";
 
 
