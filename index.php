@@ -4,7 +4,7 @@ $id = $_GET['id']; // ❌ BAD: direct user input in SQL
 $query = "SELECT * FROM users WHERE id = $id"; 
 $result = mysqli_query($conn, $query);
 
-$db_host = "localhost";
+$db_host = "localhost"; 
 $db_user = "root";
 $db_pass = "12345";
 $db_name = "mydb";
